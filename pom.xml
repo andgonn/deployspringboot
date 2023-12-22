@@ -11,7 +11,7 @@
     <groupId>exemplo.host.integrator</groupId>
     <artifactId>IntegratorExemploDeployGit</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>IntegratorExemploDeployGit</name>
     <description>IntegratorExemploDeployGit</description>
     <properties>
