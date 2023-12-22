@@ -21,13 +21,6 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Install lftp
-      run: sudo apt-get update && sudo apt-get install -y lftp
- 
-    - name: Remove Old JAR files from FTP Server
-      run: |
-        lftp -u ${{ secrets.FTP_USERNAME }},${{ secrets.FTP_PASSWORD }} ${{ secrets.FTP_SERVER }} -e "rm -f ~/appservers/standalone/*.jar; bye"
-
     - name: Upload to FTP Server
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
