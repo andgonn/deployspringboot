@@ -17,13 +17,15 @@ deployment_path='/appservers/'
 folder_name='standalone'
 git_branch='main'
 
-if [ -z "$repository_url" ]  || [ -z "$deployment_path" ]; then
-    echo "${RED}Usage: ./$0 <repository_url> <deployment_path> <deployment_folder> <git_branch>${NC}
-    ${GREEN}Example: ./$0 git@yourdomain.com /var/www/html/ my-project-branch
-    ${GREEN}Example 2: ./$0 https://yourdomain.com/my-other-project.git my-other-project-branch /var/www/html/ ${NC}
-    ${TEAL}- Make sure you have permissions to write to the deployment directory.
-    ${TEAL}- You will also need repository credentials to clone the repository."
-    exit 1
+if [ -z "$repository_url" ] || [ -z "$deployment_path" ]; then
+     
+echo "${RED}Usage: ./$0 <repository_url> <deployment_path> <deployment_folder> <git_branch>${NC}"   
+echo "${GREEN}Example: ./$0 git@yourdomain.com /var/www/html/ my-project-branch${NC}"
+echo "${GREEN}Example 2: ./$0 https://yourdomain.com/my-other-project.git my-other-project-branch /var/www/html/${NC}"
+echo "${TEAL}- Make sure you have permissions to write to the deployment directory.${NC}"
+echo "${TEAL}- You will also need repository credentials to clone the repository.${NC}"
+    
+exit 1
 fi
 
 if [ -z "$git_branch" ]; then
