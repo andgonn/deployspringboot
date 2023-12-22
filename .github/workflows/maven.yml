@@ -37,3 +37,15 @@ jobs:
         local-dir: ./jar-upload/
         server-dir: ~/appservers/standalone/
 
+    - name: Execute Script on Remote Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.REMOTE_SSH_KEY }}
+        passphrase: ${{ secrets.REMOTE_SSH_KEY_PASS }} 
+        script: |
+          ~/appservers/tmp/IntegratorExemploDeployGit-0.0.1-SNAPSHOT.sh stop
+          ~/appservers/tmp/IntegratorExemploDeployGit-0.0.1-SNAPSHOT.sh start
+
+
