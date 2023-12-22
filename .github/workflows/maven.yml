@@ -20,11 +20,6 @@ jobs:
 
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-
-    - name: Find JAR file
-      id: findjar
-      run: echo "::set-output name=jar_file::$(ls target/*.jar)"
-
       
     - name: Upload to FTP Server
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
@@ -32,5 +27,9 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ${{ steps.findjar.outputs.jar_file }}
+        local-dir: ./target/
         server-dir: ~/appservers/standalone/
+        dangerous-clean-slate: true
+        exclude: |
+          - ./**
+          + *.jar
