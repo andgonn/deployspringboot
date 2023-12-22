@@ -22,8 +22,4 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: Redeploy to Tomcat
-      env:
-        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
-        SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
-      run: mvn cargo:redeploy
+
