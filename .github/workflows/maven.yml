@@ -12,10 +12,10 @@ TEAL='\033[0;36m'
 NC='\033[0m' # Adicionando a definição de NC
 STARTDATE=$(date +%s)
 
-repository_url="https://github.com/andgonn/deployspringboot/"
-deployment_path="/appservers/"
-folder_name="standalone"
-git_branch="main"
+repository_url='https://github.com/andgonn/deployspringboot/'
+deployment_path='/appservers/'
+folder_name='standalone'
+git_branch='main'
 
 if [ -z "$repository_url" ]  || [ -z "$deployment_path" ]; then
     echo "${RED}Usage: ./$0 <repository_url> <deployment_path> <deployment_folder> <git_branch>${NC}
