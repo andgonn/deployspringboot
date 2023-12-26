@@ -37,15 +37,21 @@ jobs:
         local-dir: ./jar-upload/
         server-dir: ~/appservers/standalone/
 
-    - name: Execute Script on Remote Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.REMOTE_HOST }}
-        username: ${{ secrets.REMOTE_USER }}
-        key: ${{ secrets.REMOTE_SSH_KEY }}
-        passphrase: ${{ secrets.REMOTE_SSH_KEY_PASS }} 
-        script: |
-          ~/appservers/tmp/IntegratorExemploDeployGit-0.0.1-SNAPSHOT.sh stop
-          ~/appservers/tmp/IntegratorExemploDeployGit-0.0.1-SNAPSHOT.sh start
+    - name: Install SSH Client
+      run: sudo apt-get install openssh-client sshpass
 
+    - name: Setup SSH Key
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
+      run: |
+        mkdir -p ~/.ssh
+        echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan integrator.host >> ~/.ssh/known_hosts
 
+    - name: Execute Script via SSH
+      env:
+        SSH_KEY_PASSPHRASE: ${{ secrets.REMOTE_SSH_KEY_PASS }}
+        SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
+        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+      run: sshpass -p $REMOTE_SSH_KEY_PASS ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS 'bash -s' <     ~/appservers/tmp/IntegratorExemploDeployGit-0.0.1-SNAPSHOT.sh stop
