@@ -42,12 +42,12 @@ jobs:
 
     - name: Setup SSH Key
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.REMOTE_SSH_KEY }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       run: |
         mkdir -p ~/.ssh
-        echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan integrator.host >> ~/.ssh/known_hosts
+        ssh-keyscan ssl.host >> ~/.ssh/known_hosts
     
     - name: Check Known Hosts File
       run: cat ~/.ssh/known_hosts
