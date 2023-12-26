@@ -60,8 +60,9 @@ jobs:
       
       run: |
         expect -c "
-        spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS 'echo \"SSH connection successful\"'
+        set timeout 20
+        spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS echo \"SSH connection successful\"
         expect \"assword:\"
         send \"$SSH_KEY_PASSPHRASE\r\"
-        interact
+        expect eof
         "
