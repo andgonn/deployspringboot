@@ -8,7 +8,7 @@ public class HelloController {
 
     @GetMapping("/")
     public String hello() {
-        return "Spring Boot - Integrator Host";
+        return "Spring Boot - Integrator Host - Deploy";
     }
 
 
