@@ -84,7 +84,7 @@ jobs:
       run: |
         expect -c "
         set timeout 20
-        spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS '/home/cloud35integrato/appservers/tmp/IntegratorExemploDeployGit-0.0.1-SNAPSHOT.sh stop'
+        spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS '/home/cloud35integrato/appservers/tmp/IntegratorExemploSpringBoot-0.0.1-SNAPSHOT.sh stop'
         expect {
           \"Enter passphrase for key '/home/runner/.ssh/id_rsa':\" {
             send \"$SSH_KEY_PASSPHRASE\r\"
