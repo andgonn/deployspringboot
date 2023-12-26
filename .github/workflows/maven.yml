@@ -57,5 +57,11 @@ jobs:
         SSH_KEY_PASSPHRASE: ${{ secrets.REMOTE_SSH_KEY_PASS }}
         SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
         SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+      
       run: |
-        sshpass -p $SSH_KEY_PASSPHRASE ssh -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS echo "SSH connection successful"
+        expect -c "
+        spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS 'echo \"SSH connection successful\"'
+        expect \"assword:\"
+        send \"$SSH_KEY_PASSPHRASE\r\"
+        interact
+        "
