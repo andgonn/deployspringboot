@@ -8,11 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    outputs:
+      jar_name: ${{ steps.set_jar_name.outputs.jar_name }}
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up JDK 20
+    - name: Versao da JDK - 20
       uses: actions/setup-java@v2
       with:
         java-version: '20'
@@ -24,10 +27,14 @@ jobs:
     - name: Criando o diretório para o Build do JAR
       run: mkdir ./jar-upload
 
-    - name: Copy JAR to Separate Directory
+    - name: Copiando JAR gerado para a pasta jar-upload
       run: cp ./target/*.jar ./jar-upload
 
-      
+    - name: Encontrar nome do arquivo JAR
+      id: set_jar_name
+      run: |
+        echo "jar_name=$(ls ./jar-upload/*.jar | xargs -n 1 basename)" >> $GITHUB_ENV
+
     - name: Enviando os JAR por FTP
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
@@ -37,7 +44,7 @@ jobs:
         local-dir: ./jar-upload/
         server-dir: ~/appservers/standalone/
 
-    - name: Install SSH Client
+    - name: Instalar o SSH Client
       run: sudo apt-get install openssh-client sshpass expect
 
 
@@ -54,6 +61,24 @@ jobs:
         send \"$SSH_USER_PASSWORD\r\"
         expect \"$ \"
         send \"ls -l\r\"
+        expect \"$ \"
+        send \"exit\r\"
+        expect eof
+        "
+
+    - name: Parar o Spring Boot
+      env:
+        SSH_USER_PASSWORD: ${{ secrets.SSH_USER_PASSWORD }}
+        SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
+        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+      run: |
+        expect -c "
+        set timeout 20
+        spawn ssh -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS
+        expect \"password:\"
+        send \"$SSH_USER_PASSWORD\r\"
+        expect \"$ \"
+        send \"bash appservers/tmp/IntegratorExemploSpringBoot-0.0.1-SNAPSHOT.sh stop\r\"
         expect \"$ \"
         send \"exit\r\"
         expect eof
