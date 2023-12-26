@@ -36,7 +36,6 @@ jobs:
 
     - name: Usar o nome do JAR em outra etapa
       run: echo "O nome do arquivo JAR é ${{ steps.jar_name.outputs.jar_name }}"
-
         
     - name: Enviando os JAR por FTP
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
