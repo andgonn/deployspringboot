@@ -54,15 +54,22 @@ jobs:
         
     - name: Teste de conexão SSH
       env:
-        SSH_KEY_PASSPHRASE: ${{ secrets.REMOTE_SSH_KEY_PASS }}
+        SSH_KEY_PASSPHRASE: ${{ secrets.SSH_KEY_PASSPHRASE }}
+        SSH_USER_PASSWORD: ${{ secrets.SSH_KEY_PASSPHRAS }}
         SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
         SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
-      
       run: |
         expect -c "
         set timeout 20
         spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS echo \"SSH connection successful\"
-        expect \"assword:\"
-        send \"$SSH_KEY_PASSPHRASE\r\"
+        expect {
+          \"Enter passphrase for key '/home/runner/.ssh/id_rsa':\" {
+            send \"$SSH_KEY_PASSPHRASE\r\"
+            exp_continue
+          }
+          \"password:\" {
+            send \"$SSH_USER_PASSWORD\r\"
+          }
+        }
         expect eof
         "
