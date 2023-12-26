@@ -40,41 +40,20 @@ jobs:
     - name: Install SSH Client
       run: sudo apt-get install openssh-client sshpass expect
 
-    - name: Setup SSH Key
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      run: |
-        mkdir -p ~/.ssh
-        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan cloud35.integrator.host >> ~/.ssh/known_hosts
-    
-    - name: Check Known Hosts File
-      run: cat ~/.ssh/known_hosts
-        
+
     - name: Teste de conexão SSH
       env:
-        SSH_KEY_PASSPHRASE: ${{ secrets.REMOTE_SSH_KEY_PASS }}
         SSH_USER_PASSWORD: ${{ secrets.SSH_USER_PASSWORD }}
         SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
         SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
       run: |
         expect -c "
         set timeout 20
-        spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS 'bash -c \"echo Connected to: \$SERVER_ADDRESS && hostname && hostname -I && uname -a\"'
-        expect {
-          \"Enter passphrase for key '/home/runner/.ssh/id_rsa':\" {
-            send \"$SSH_KEY_PASSPHRASE\r\"
-            exp_continue
-          }
-          \"password:\" {
-            send \"$SSH_USER_PASSWORD\r\"
-          }
-        }
+        spawn ssh -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS 'echo Connected to: $SERVER_ADDRESS && hostname && hostname -I && uname -a'
+        expect \"password:\"
+        send \"$SSH_USER_PASSWORD\r\"
         expect eof
         "
-
-
 
 
         
