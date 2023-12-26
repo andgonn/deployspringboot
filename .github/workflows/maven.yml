@@ -50,25 +50,6 @@ jobs:
     - name: Instalar o SSH Client
       run: sudo apt-get install openssh-client sshpass expect
 
-
-    - name: Teste de conexão SSH
-      env:
-        USUARIOCPANEL: ${{ secrets.USUARIOCPANEL }}
-        HOST: ${{ secrets.HOST }}
-        SENHACPANEL: ${{ secrets.SENHACPANEL }}
-      run: |
-        expect -c "
-        set timeout 20
-        spawn ssh -o StrictHostKeyChecking=no $USUARIOCPANEL@$HOST
-        expect \"password:\"
-        send \"$SENHACPANEL\r\"
-        expect \"$ \"
-        send \"ls -l\r\"
-        expect \"$ \"
-        send \"exit\r\"
-        expect eof
-        "
-
     - name: Parar o Spring Boot
       env:
         USUARIOCPANEL: ${{ secrets.USUARIOCPANEL }}
