@@ -5,60 +5,42 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.1</version>
+        <version>3.1.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>exemplo.host.integrator</groupId>
-    <artifactId>IntegratorExemploDeployGit</artifactId>
+    <groupId>host.integrator</groupId>
+    <artifactId>IntegratorExemploSpringBoot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>IntegratorExemploDeployGit</name>
-    <description>IntegratorExemploDeployGit</description>
+    <name>IntegratorExemploSpringBoot</name>
+    <description>IntegratorExemploSpringBoot</description>
     <properties>
-        <java.version>20</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven3-plugin</artifactId>
-                <version>1.9.9</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <container>
-                        <containerId>tomcat10x</containerId>
-                        <type>remote</type>
-                    </container>
-                    <configuration>
-                        <type>runtime</type>
-                        <properties>
-                            <cargo.hostname>github.container.javaworld.com.br</cargo.hostname>
-                            <cargo.servlet.port>443</cargo.servlet.port>
-                            <cargo.protocol>https</cargo.protocol>
-                            <cargo.tomcat.manager.url>https://github.container.javaworld.com.br/manager/text</cargo.tomcat.manager.url>
-                            <cargo.remote.username>andgonn</cargo.remote.username>
-                            <cargo.remote.password>sub252ten613</cargo.remote.password>
-                        </properties>
-                    </configuration>
+                    <image>
+                        <builder>paketobuildpacks/builder-jammy-base:latest</builder>
+                    </image>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
 </project>
-
-
