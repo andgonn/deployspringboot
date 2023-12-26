@@ -41,9 +41,9 @@ jobs:
     - name: Enviando os JAR por FTP
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
+        server: ${{ secrets.HOST }}
+        username: ${{ secrets.USUARIOCPANEL }}
+        password: ${{ secrets.SENHACPANEL }}
         local-dir: ./jar-upload/
         server-dir: ~/appservers/standalone/
 
@@ -53,9 +53,9 @@ jobs:
 
     - name: Teste de conexão SSH
       env:
-        SSH_USER_PASSWORD: ${{ secrets.SSH_USER_PASSWORD }}
-        SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
-        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+        SSH_USER_PASSWORD: ${{ secrets.USUARIOCPANEL }}
+        SERVER_ADDRESS: ${{ secrets.HOST }}
+        SERVER_USERNAME: ${{ secrets.SENHACPANEL }}
       run: |
         expect -c "
         set timeout 20
@@ -71,9 +71,9 @@ jobs:
 
     - name: Parar o Spring Boot
       env:
-        SSH_USER_PASSWORD: ${{ secrets.SSH_USER_PASSWORD }}
-        SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
-        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+        SSH_USER_PASSWORD: ${{ secrets.USUARIOCPANEL }}
+        SERVER_ADDRESS: ${{ secrets.HOST }}
+        SERVER_USERNAME: ${{ secrets.SENHACPANEL }}
       run: |
         expect -c "
         set timeout 20
@@ -89,9 +89,9 @@ jobs:
 
     - name: Iniciar o Spring Boot
       env:
-        SSH_USER_PASSWORD: ${{ secrets.SSH_USER_PASSWORD }}
-        SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
-        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+        SSH_USER_PASSWORD: ${{ secrets.USUARIOCPANEL }}
+        SERVER_ADDRESS: ${{ secrets.HOST }}
+        SERVER_USERNAME: ${{ secrets.SENHACPANEL }}
       run: |
         expect -c "
         set timeout 20
