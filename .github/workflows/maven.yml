@@ -59,5 +59,23 @@ jobs:
         expect eof
         "
 
+    - name: Iniciar o Spring Boot
+      env:
+        SSH_USER_PASSWORD: ${{ secrets.SSH_USER_PASSWORD }}
+        SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
+        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+      run: |
+        expect -c "
+        set timeout 20
+        spawn ssh -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS
+        expect \"password:\"
+        send \"$SSH_USER_PASSWORD\r\"
+        expect \"$ \"
+        send \"bash appservers/tmp/IntegratorExemploSpringBoot-0.0.1-SNAPSHOT.sh start\r\"
+        expect \"$ \"
+        send \"exit\r\"
+        expect eof
+        "
+
 
         
