@@ -49,9 +49,13 @@ jobs:
       run: |
         expect -c "
         set timeout 20
-        spawn ssh -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS 'ls -l'
+        spawn ssh -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS
         expect \"password:\"
         send \"$SSH_USER_PASSWORD\r\"
+        expect \"$ \"
+        send \"ls -l\r\"
+        expect \"$ \"
+        send \"exit\r\"
         expect eof
         "
 
