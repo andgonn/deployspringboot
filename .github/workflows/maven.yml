@@ -34,7 +34,8 @@ jobs:
       id: set_jar_name
       run: |
         echo "jar_name=$(ls ./jar-upload/*.jar | xargs -n 1 basename)" >> $GITHUB_ENV
-
+        echo "O nome do arquivo JAR é ${{ steps.set_jar_name.outputs.jar_name }}"
+        
     - name: Enviando os JAR por FTP
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
       with:
