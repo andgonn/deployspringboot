@@ -52,7 +52,7 @@ jobs:
     - name: Check Known Hosts File
       run: cat ~/.ssh/known_hosts
         
-    - name: Test SSH Connection
+    - name: Teste de conexão SSH
       env:
         SSH_KEY_PASSPHRASE: ${{ secrets.REMOTE_SSH_KEY_PASS }}
         SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
