@@ -84,7 +84,8 @@ jobs:
       run: |
         expect -c "
         set timeout 20
-        spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS 'echo Connected to: $SERVER_ADDRESS && hostname && hostname -I && uname -a'
+        spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS 'echo \"Connected to: $SERVER_ADDRESS\" && hostname && hostname -I && uname -a'
+
         expect {
           \"Enter passphrase for key '/home/runner/.ssh/id_rsa':\" {
             send \"$SSH_KEY_PASSPHRASE\r\"
