@@ -59,4 +59,3 @@ jobs:
         SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
       run: |
         sshpass -p $SSH_KEY_PASSPHRASE ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS 'echo "SSH connection successful"'
-
