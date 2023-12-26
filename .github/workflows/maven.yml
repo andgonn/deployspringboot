@@ -81,7 +81,7 @@ jobs:
         expect \"password:\"
         send \"$SSH_USER_PASSWORD\r\"
         expect \"$ \"
-        send \"bash appservers/tmp/IntegratorExemploSpringBoot-0.0.1-SNAPSHOT.sh stop\r\"
+        send \"bash appservers/tmp/${{ steps.jar_name.outputs.jar_name }}.sh stop\r\"
         expect \"$ \"
         send \"exit\r\"
         expect eof
@@ -99,7 +99,7 @@ jobs:
         expect \"password:\"
         send \"$SSH_USER_PASSWORD\r\"
         expect \"$ \"
-        send \"bash appservers/tmp/IntegratorExemploSpringBoot-0.0.1-SNAPSHOT.sh start\r\"
+        send \"bash appservers/tmp/${{ steps.jar_name.outputs.jar_name }}.sh start\r\"
         expect \"$ \"
         send \"exit\r\"
         expect eof
