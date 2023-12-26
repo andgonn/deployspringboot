@@ -40,16 +40,6 @@ jobs:
     - name: Install SSH Client
       run: sudo apt-get install openssh-client sshpass
 
-    - name: Test SSH Connection
-      env:
-        SSH_KEY_PASSPHRASE: ${{ secrets.REMOTE_SSH_KEY_PASS }}
-        SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
-        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
-      run: |
-        sshpass -p $SSH_KEY_PASSPHRASE ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS 'echo "SSH connection successful"'
-
-
-
     - name: Setup SSH Key
       env:
         SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_KEY }}
@@ -58,6 +48,16 @@ jobs:
         echo "$DEPLOY_KEY" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan integrator.host >> ~/.ssh/known_hosts
+
+        
+    - name: Test SSH Connection
+      env:
+        SSH_KEY_PASSPHRASE: ${{ secrets.REMOTE_SSH_KEY_PASS }}
+        SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
+        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+      run: |
+        sshpass -p $SSH_KEY_PASSPHRASE ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS 'echo "SSH connection successful"'
+
 
     - name: Execute Script via SSH
       env:
