@@ -61,31 +61,7 @@ jobs:
       run: |
         expect -c "
         set timeout 20
-        spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS echo \"SSH connection successful\"
-        expect {
-          \"Enter passphrase for key '/home/runner/.ssh/id_rsa':\" {
-            send \"$SSH_KEY_PASSPHRASE\r\"
-            exp_continue
-          }
-          \"password:\" {
-            send \"$SSH_USER_PASSWORD\r\"
-          }
-        }
-        expect eof
-        "
-
-
-    - name: Executa o START via .SH
-      env:
-        SSH_KEY_PASSPHRASE: ${{ secrets.SSH_KEY_PASSPHRASE }}
-        SSH_USER_PASSWORD: ${{ secrets.SSH_KEY_PASSPHRAS }}
-        SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
-        SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
-      run: |
-        expect -c "
-        set timeout 20
         spawn ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SERVER_USERNAME@$SERVER_ADDRESS 'bash -c \"echo Connected to: $SERVER_ADDRESS && hostname && hostname -I && uname -a\"'
-
         expect {
           \"Enter passphrase for key '/home/runner/.ssh/id_rsa':\" {
             send \"$SSH_KEY_PASSPHRASE\r\"
@@ -97,6 +73,8 @@ jobs:
         }
         expect eof
         "
+
+
 
 
         
