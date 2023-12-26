@@ -38,7 +38,7 @@ jobs:
         server-dir: ~/appservers/standalone/
 
     - name: Install SSH Client
-      run: sudo apt-get install openssh-client sshpass
+      run: sudo apt-get install openssh-client sshpass expect
 
     - name: Setup SSH Key
       env:
