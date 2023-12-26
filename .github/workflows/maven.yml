@@ -77,8 +77,8 @@ jobs:
 
     - name: Executa o STOP via .SH
       env:
-        SSH_KEY_PASSPHRASE: ${{ secrets.REMOTE_SSH_KEY_PASS }}
-        SSH_USER_PASSWORD: ${{ secrets.SSH_USER_PASSWORD }}
+        SSH_KEY_PASSPHRASE: ${{ secrets.SSH_KEY_PASSPHRASE }}
+        SSH_USER_PASSWORD: ${{ secrets.SSH_KEY_PASSPHRAS }}
         SERVER_ADDRESS: ${{ secrets.SERVER_ADDRESS }}
         SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
       run: |
