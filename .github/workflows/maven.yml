@@ -30,11 +30,12 @@ jobs:
     - name: Copiando JAR gerado para a pasta jar-upload
       run: cp ./target/*.jar ./jar-upload
 
-    - name: Encontrar nome do arquivo JAR
-      id: set_jar_name
-      run: |
-        echo "jar_name=$(ls ./jar-upload/*.jar | xargs -n 1 basename)" >> $GITHUB_ENV
-        echo "O nome do arquivo JAR é ${{ steps.set_jar_name.outputs.jar_name }}"
+    - name: Definir nome do arquivo JAR
+      id: jar_name
+      run: echo "::set-output name=jar_name::$(ls ./jar-upload/*.jar | xargs -n 1 basename)"
+
+    - name: Usar o nome do JAR em outra etapa
+      run: echo "O nome do arquivo JAR é ${{ steps.jar_name.outputs.jar_name }}"
         
     - name: Enviando os JAR por FTP
       uses: SamKirkland/FTP-Deploy-Action@4.0.0
