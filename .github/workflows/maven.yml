@@ -53,15 +53,15 @@ jobs:
 
     - name: Teste de conexão SSH
       env:
-        SSH_USER_PASSWORD: ${{ secrets.USUARIOCPANEL }}
-        SERVER_ADDRESS: ${{ secrets.HOST }}
-        SERVER_USERNAME: ${{ secrets.SENHACPANEL }}
+        USUARIOCPANEL: ${{ secrets.USUARIOCPANEL }}
+        HOST: ${{ secrets.HOST }}
+        SENHACPANEL: ${{ secrets.SENHACPANEL }}
       run: |
         expect -c "
         set timeout 20
-        spawn ssh -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS
+        spawn ssh -o StrictHostKeyChecking=no $USUARIOCPANEL@$HOST
         expect \"password:\"
-        send \"$SSH_USER_PASSWORD\r\"
+        send \"$SENHACPANEL\r\"
         expect \"$ \"
         send \"ls -l\r\"
         expect \"$ \"
@@ -71,15 +71,15 @@ jobs:
 
     - name: Parar o Spring Boot
       env:
-        SSH_USER_PASSWORD: ${{ secrets.USUARIOCPANEL }}
-        SERVER_ADDRESS: ${{ secrets.HOST }}
-        SERVER_USERNAME: ${{ secrets.SENHACPANEL }}
+        USUARIOCPANEL: ${{ secrets.USUARIOCPANEL }}
+        HOST: ${{ secrets.HOST }}
+        SENHACPANEL: ${{ secrets.SENHACPANEL }}
       run: |
         expect -c "
         set timeout 20
-        spawn ssh -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS
+        spawn ssh -o StrictHostKeyChecking=no $USUARIOCPANEL@$HOST
         expect \"password:\"
-        send \"$SSH_USER_PASSWORD\r\"
+        send \"$SENHACPANEL\r\"
         expect \"$ \"
         send \"bash appservers/tmp/${{ steps.jar_name.outputs.jar_name }}.sh stop\r\"
         expect \"$ \"
@@ -89,15 +89,15 @@ jobs:
 
     - name: Iniciar o Spring Boot
       env:
-        SSH_USER_PASSWORD: ${{ secrets.USUARIOCPANEL }}
-        SERVER_ADDRESS: ${{ secrets.HOST }}
-        SERVER_USERNAME: ${{ secrets.SENHACPANEL }}
+        USUARIOCPANEL: ${{ secrets.USUARIOCPANEL }}
+        HOST: ${{ secrets.HOST }}
+        SENHACPANEL: ${{ secrets.SENHACPANEL }}
       run: |
         expect -c "
         set timeout 20
-        spawn ssh -o StrictHostKeyChecking=no $SERVER_USERNAME@$SERVER_ADDRESS
+        spawn ssh -o StrictHostKeyChecking=no $USUARIOCPANEL@$HOST
         expect \"password:\"
-        send \"$SSH_USER_PASSWORD\r\"
+        send \"$SENHACPANEL\r\"
         expect \"$ \"
         send \"bash appservers/tmp/${{ steps.jar_name.outputs.jar_name }}.sh start\r\"
         expect \"$ \"
